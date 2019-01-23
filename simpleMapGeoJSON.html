@@ -11,8 +11,10 @@
         "
         crossorigin=""></script>
         <!-- the following CSS is used to set the size of the Map -->
-        <style type="text/css">#mapid { height: 180px; }
-        </style>
+        <style type="text/css">#mapid { height: 180px; }</style>
+        <link rel="stylesheet" href="ionicons.min.css">
+        <link rel="stylesheet" href="leaflet.awesome-markers.css">
+        <script src="leaflet.awesome-markers.js"></script>                  
     </head>
     
     <body>
@@ -31,7 +33,10 @@
             }).addTo(mymap);
 
 
-
+            var testMarkerPink = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'pink'
+            });
 
             // create a geoJSON feature -
             var geojsonFeature = {
@@ -46,8 +51,14 @@
                 }
             };
             // and add it to the map
-            L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+" "+geojsonFeature.properties.popupContent+"<b>");
+            //L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+" "+geojsonFeature.properties.popupContent+"<b>");
             
+            L.geoJSON(geojsonFeature, {
+                pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon:testMarkerPink});
+                }
+            }).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+" "+geojsonFeature.properties.popupContent+"<b>");
+
 
 
 
@@ -65,6 +76,7 @@
             }
             // now add the click event detector to the map
             mymap.on('click', onMapClick);
+
         </script>
     </body>
             
